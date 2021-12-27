@@ -1,0 +1,93 @@
+<div class="home-page">
+  <!-- Home page body start -->
+  <div class="home-body">
+    <div class="grid-container">
+
+      <!-- Chat list Markup starts -->
+      <div>
+        <div class="chat-list-container">
+          <!-- <p class="chat-list-heading"><i class="fa fa-list" aria-hidden="true"></i> <span>Chat list</span> </p> -->
+          <div class="chat-list">
+            <ul class="list">
+              <div class="name-tag">
+                <div>
+                  <span class="name-avatar">{{getAvatarLetter(this.userstate.username[0])}}</span>
+                  <span class="name"> {{this.userstate.username}}</span>
+                </div>
+                <div>
+                  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="logout()">
+                      <mat-icon>power_settings_new</mat-icon>
+                      <span>Logout</span>
+                    </button>
+                  </mat-menu>
+                </div>
+              </div>
+              <div class="overflow-auto p-2">
+                <form class="example-form">
+                  <mat-form-field class="w-100 example-full-width" appearance="outline">
+                    <mat-label>People</mat-label>
+                    <input type="text"
+                           placeholder="Pick one"
+                           aria-label="Number"
+                           matInput
+                           [formControl]="searchbar"
+                           autocomplete="false">
+                           <mat-icon matSuffix>search</mat-icon>
+                          </mat-form-field>
+                </form>
+                <div class="cl" >Chat List</div>
+                <li class="list-group-items" *ngFor="let item of filteredOptions | async" (click)="selectFriendToChat(item.id)">
+                  <span class="list-item-avatar">{{getAvatarLetter(item.username[0])}}</span>
+                  <span class="list-item-name"> {{item.username}}</span>
+                </li>
+                <span *ngIf="noResults">No Results Found</span>
+              </div>
+              </ul>
+              <div class="alert alert-info" *ngIf="data.chatlist.length === 0">
+                <strong>No one is online to chat, ask someone to Login.</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- Chat List Markup ends -->
+
+      <!-- Message Area Markup starts -->
+      <div>
+        <div class="message-container">
+          <p class="head">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+            <span class="message-heading" style="font-size: 24px;"> {{data.selectedFriendId === userId ? 'Me' :
+              data.selectedFriendName }} </span>
+            <span style="float:right; margin-right: 10px; font-size: 24px;" class="message-heading"> {{data.username}}
+            </span>
+          </p>
+          <div class="message-list p-3">
+            <div *ngIf="!data.selectedFriendId" class="d-flex justify-content-center align-items-center h6">
+              Select a User to chat
+            </div>
+            <div *ngIf="data.selectedFriendId" class="w-100">
+              <ul #messageThead class="message-thread">
+                <li *ngFor="let item of  data.messages" [ngClass]="{'me' : checkPosition( item.toUserId, userId) === true , 'you' :  checkPosition( item.toUserId, userId) === false}">
+                  {{item.message}}
+                </li>
+              </ul>
+              <div class="message-text">
+                <form (ngSubmit)="sendMessage()" class="d-flex">
+                  <input class="message form-control" placeholder="Type a message..." [formControl]="message" />
+                  <mat-icon type="submit" (click)="sendMessage()" class="send-button">send</mat-icon>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Message Area Markup ends -->
+
+    </div>
+  </div>
+  <!-- Home page body start -->
+</div>

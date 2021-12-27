@@ -1,0 +1,68 @@
+<!--
+    Real Time chatting app
+    @author Jonas Silver
+-->
+<div class="auth-page">
+  <div class="container auth-container">
+    <div class="auth">
+
+      <!-- Auth Page Header Tabs start -->
+      <div class="auth-header">
+        <button type="button" (click)="loginPage('login')" class="auth-header-btn">Login</button>
+        <button type="button" (click)="loginPage('register')" class="auth-header-btn">Register</button>
+      </div>
+      <!-- Auth Page Header Tabs ends -->
+
+      <div class="auth-content">
+        <!-- Login Tab starts -->
+        <div *ngIf="isLogin" class="login">
+          <form [formGroup]="login">
+            <div class="form">
+              <mat-form-field appearance="outline" class="mat-form-with">
+                <mat-label for="username">Username</mat-label>
+                <input matInput formControlName="username" placeholder="Enter username" ng-model="data.loginUsername"
+                  (focus)="true">
+              </mat-form-field>
+            </div>
+            <div class="form">
+              <mat-form-field appearance="outline" class="mat-form-with">
+                <mat-label for="password">Password</mat-label>
+                <input matInput type="password" formControlName="password" class="mat-input" placeholder="Enter password"
+                  ng-model="data.loginPassword">
+              </mat-form-field>
+            </div>
+            <button class="login-button" (click)="loginUser()">Login</button>
+          </form>
+        </div>
+        <!-- Login Tab ends -->
+        <!-- Register Tab starts -->
+        <div *ngIf="!isLogin" class="register">
+          <form [formGroup]="register">
+            <div class="form">
+              <mat-form-field appearance="outline" class="mat-form-with">
+                <mat-label for="username">Username</mat-label>
+                <input matInput formControlName="username" placeholder="Enter username" ng-model="data.loginUsername"
+                  (focus)="true" autocomplete="off" (keyup)="initiateCheckUserName($event)">
+              </mat-form-field>
+              <div *ngIf="!usernameAvailable">
+                <br>
+                <div class="alert alert-danger" role="alert">
+                  <strong>{{this.login.controls.username.value}}</strong> Username is already taken.
+                </div>
+              </div>
+            </div>
+            <div class="form">
+              <mat-form-field appearance="outline" class="mat-form-with">
+                <mat-label for="password">Password</mat-label>
+                <input matInput type="password" formControlName="password" class="mat-input" placeholder="Enter password"
+                  ng-model="data.loginPassword">
+              </mat-form-field>
+            </div>
+            <button class="login-button" (click)="registerUser()">Register</button>
+          </form>
+        </div>
+        <!-- Register Tab ends -->
+      </div>
+    </div>
+  </div>
+</div>
